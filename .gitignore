@@ -1,0 +1,5 @@
+# Temporary Excel files
+~$*.xlsx
+
+# Power BI temporary files
+*.tmp
