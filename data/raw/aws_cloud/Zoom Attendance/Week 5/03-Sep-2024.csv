@@ -1,101 +1,41 @@
 Name,Email,Join Time,Leave Time,Duration,Role
-Lucas Anderson,lucasanderson@example.com,06:08 PM,07:48 PM,1:40:00,Participant
-Emily Johnson,emilyjohnson@example.com,06:13 PM,07:48 PM,1:35:00,Participant
-Benjamin Harris,benjaminharris@example.com,06:04 PM,07:57 PM,1:53:00,Participant
-Isabella Moore,isabellamoore@example.com,06:13 PM,07:58 PM,1:45:00,Participant
-James Carter,jamescarter@example.com,06:15 PM,07:47 PM,1:32:00,Participant
-Olivia Martin,oliviamartin@example.com,06:04 PM,07:45 PM,1:41:00,Participant
-Alexander Wright,alexanderwright@example.com,06:08 PM,07:56 PM,1:48:00,Participant
-Sophia Lewis,sophialewis@example.com,06:10 PM,07:47 PM,1:37:00,Participant
-Michael Scott,michaelscott@example.com,06:06 PM,07:57 PM,1:51:00,Participant
-Amelia Clark,ameliaclark@example.com,06:01 PM,07:57 PM,1:56:00,Participant
-Noah Robinson,noahrobinson@example.com,06:01 PM,07:53 PM,1:52:00,Participant
-Grace Rodriguez,gracerodriguez@example.com,06:01 PM,07:51 PM,1:50:00,Participant
-Elijah Turner,elijahturner@example.com,06:00 PM,07:56 PM,1:56:00,Participant
-Ava Mitchell,avamitchell@example.com,06:07 PM,07:52 PM,1:45:00,Participant
-William Cooper,williamcooper@example.com,06:07 PM,07:54 PM,1:47:00,Participant
-Charlotte Hill,charlottehill@example.com,06:10 PM,07:47 PM,1:37:00,Participant
-Henry Adams,henryadams@example.com,06:08 PM,07:50 PM,1:42:00,Participant
-Evelyn Baker,evelynbaker@example.com,06:14 PM,07:48 PM,1:34:00,Participant
-Samuel Collins,samuelcollins@example.com,06:07 PM,07:48 PM,1:41:00,Participant
-Mia Allen,miaallen@example.com,06:09 PM,07:50 PM,1:41:00,Participant
-Daniel Bennett,danielbennett@example.com,06:00 PM,07:55 PM,1:55:00,Participant
-Harper Parker,harperparker@example.com,06:03 PM,07:55 PM,1:52:00,Participant
-Jacob Young,jacobyoung@example.com,06:13 PM,07:58 PM,1:45:00,Participant
-Lily Ward,lilyward@example.com,06:08 PM,07:48 PM,1:40:00,Participant
-Matthew Foster,matthewfoster@example.com,06:15 PM,07:58 PM,1:43:00,Participant
-Abigail Brooks,abigailbrooks@example.com,06:12 PM,07:54 PM,1:42:00,Participant
-Joseph Griffin,josephgriffin@example.com,06:05 PM,07:52 PM,1:47:00,Participant
-Ella Reed,ellareed@example.com,06:00 PM,07:53 PM,1:53:00,Participant
-David Flores,davidflores@example.com,06:07 PM,07:49 PM,1:42:00,Participant
-Chloe Howard,chloehoward@example.com,06:04 PM,08:00 PM,1:56:00,Participant
-Andrew Stewart,andrewstewart@example.com,06:15 PM,07:53 PM,1:38:00,Participant
-Victoria King,victoriaking@example.com,06:14 PM,07:59 PM,1:45:00,Participant
-Thomas Phillips,thomasphillips@example.com,06:13 PM,07:50 PM,1:37:00,Participant
-Hannah Butler,hannahbutler@example.com,06:07 PM,07:57 PM,1:50:00,Participant
-Christopher Morgan,christophermorgan@example.com,06:11 PM,07:46 PM,1:35:00,Participant
-Aria Lee,arialee@example.com,06:11 PM,07:49 PM,1:38:00,Participant
-Anthony Bell,anthonybell@example.com,06:02 PM,07:48 PM,1:46:00,Participant
-Natalie Sanders,nataliesanders@example.com,06:02 PM,07:49 PM,1:47:00,Participant
-Joshua Morris,joshuamorris@example.com,06:08 PM,07:57 PM,1:49:00,Participant
-Scarlett Rivera,scarlettrivera@example.com,06:00 PM,07:47 PM,1:47:00,Participant
-Jonathan Perry,jonathanperry@example.com,06:01 PM,07:48 PM,1:47:00,Participant
-Penelope Cook,penelopecook@example.com,06:02 PM,07:59 PM,1:57:00,Participant
-Ryan Peterson,ryanpeterson@example.com,06:08 PM,07:46 PM,1:38:00,Participant
-Eleanor Barnes,eleanorbarnes@example.com,06:01 PM,07:58 PM,1:57:00,Participant
-Caleb Jenkins,calebjenkins@example.com,06:03 PM,07:52 PM,1:49:00,Participant
-Zoey Russell,zoeyrussell@example.com,06:10 PM,07:46 PM,1:36:00,Participant
-Jack Murphy,jackmurphy@example.com,06:05 PM,07:55 PM,1:50:00,Participant
-Madison Hayes,madisonhayes@example.com,06:13 PM,07:48 PM,1:35:00,Participant
-Charles Coleman,charlescoleman@example.com,06:15 PM,07:58 PM,1:43:00,Participant
-Layla Cooper,laylacooper@example.com,06:05 PM,07:56 PM,1:51:00,Participant
-Ethan Kelly,ethankelly@example.com,06:02 PM,07:47 PM,1:45:00,Participant
-Sofia Richardson,sofiarichardson@example.com,06:14 PM,07:57 PM,1:43:00,Participant
-Owen Cox,owencox@example.com,06:01 PM,07:46 PM,1:45:00,Participant
-Nora Ward,noraward@example.com,06:10 PM,07:49 PM,1:39:00,Participant
-Isaac Price,isaacprice@example.com,06:12 PM,07:51 PM,1:39:00,Participant
-Hazel Long,hazellong@example.com,06:05 PM,07:47 PM,1:42:00,Participant
-Dylan Powell,dylanpowell@example.com,06:12 PM,07:47 PM,1:35:00,Participant
-Lillian Fisher,lillianfisher@example.com,06:04 PM,07:52 PM,1:48:00,Participant
-Christian Henderson,christianhenderson@example.com,06:11 PM,07:59 PM,1:48:00,Participant
-Audrey Myers,audreymyers@example.com,06:02 PM,07:54 PM,1:52:00,Participant
-Luke Bryant,lukebryant@example.com,06:07 PM,07:50 PM,1:43:00,Participant
-Lucy Nguyen,lucynguyen@example.com,06:04 PM,07:59 PM,1:55:00,Participant
-Carter Kim,carterkim@example.com,06:13 PM,08:00 PM,1:47:00,Participant
-Samantha Chavez,samanthachavez@example.com,06:09 PM,07:48 PM,1:39:00,Participant
-Gabriel Jenkins,gabrieljenkins@example.com,06:15 PM,07:54 PM,1:39:00,Participant
-Bella Morales,bellamorales@example.com,06:11 PM,07:57 PM,1:46:00,Participant
-Aaron Hayes,aaronhayes@example.com,06:09 PM,07:46 PM,1:37:00,Participant
-Maya Porter,mayaporter@example.com,06:14 PM,07:57 PM,1:43:00,Participant
-Julian Ramirez,julianramirez@example.com,06:14 PM,07:59 PM,1:45:00,Participant
-Ruby Hunter,rubyhunter@example.com,06:10 PM,07:56 PM,1:46:00,Participant
-Leo Ross,leoross@example.com,06:05 PM,07:57 PM,1:52:00,Participant
-Sadie Diaz,sadiediaz@example.com,06:13 PM,07:48 PM,1:35:00,Participant
-Adam Simmons,adamsimmons@example.com,06:02 PM,07:54 PM,1:52:00,Participant
-Violet Gray,violetgray@example.com,06:08 PM,07:50 PM,1:42:00,Participant
-Nathan Mitchell,nathanmitchell@example.com,06:02 PM,07:53 PM,1:51:00,Participant
-Stella Perry,stellaperry@example.com,06:04 PM,07:47 PM,1:43:00,Participant
-Aiden Richardson,aidenrichardson@example.com,06:02 PM,08:00 PM,1:58:00,Participant
-Leah Lopez,leahlopez@example.com,06:00 PM,07:58 PM,1:58:00,Participant
-Hunter Barnes,hunterbarnes@example.com,06:02 PM,07:45 PM,1:43:00,Participant
-Mila Brooks,milabrooks@example.com,06:00 PM,07:54 PM,1:54:00,Participant
-Sebastian Carter,sebastiancarter@example.com,06:15 PM,07:55 PM,1:40:00,Participant
-Ellie Hughes,elliehughes@example.com,06:06 PM,07:58 PM,1:52:00,Participant
-Jackson Bennett,jacksonbennett@example.com,06:06 PM,07:45 PM,1:39:00,Participant
-Luna Sanders,lunasanders@example.com,06:04 PM,07:52 PM,1:48:00,Participant
-Zachary Rogers,zacharyrogers@example.com,06:11 PM,08:00 PM,1:49:00,Participant
-Naomi Ward,naomiward@example.com,06:01 PM,07:54 PM,1:53:00,Participant
-Liam Brown,liambrown@example.com,06:04 PM,07:47 PM,1:43:00,Participant
-Gabriella Cruz,gabriellacruz@example.com,06:15 PM,07:51 PM,1:36:00,Participant
-Patrick Reed,patrickreed@example.com,06:10 PM,07:58 PM,1:48:00,Participant
-Zoey Long,zoeylong@example.com,06:02 PM,07:45 PM,1:43:00,Participant
-Caleb Scott,calebscott@example.com,06:15 PM,07:45 PM,1:30:00,Participant
-Harper Thompson,harperthompson@example.com,06:10 PM,07:54 PM,1:44:00,Participant
-Blake Carter,blakecarter@example.com,06:11 PM,07:56 PM,1:45:00,Participant
-Emily Coleman,emilycoleman@example.com,06:00 PM,07:54 PM,1:54:00,Participant
-Dominic Myers,dominicmyers@example.com,06:14 PM,07:52 PM,1:38:00,Participant
-Grace Bell,gracebell@example.com,06:00 PM,07:52 PM,1:52:00,Participant
-Isaac Wright,isaacwright@example.com,06:01 PM,07:47 PM,1:46:00,Participant
-Lily Phillips,lilyphillips@example.com,06:04 PM,07:56 PM,1:52:00,Participant
-Jayden Stewart,jaydenstewart@example.com,06:04 PM,07:47 PM,1:43:00,Participant
-Charlotte Allen,charlotteallen@example.com,06:12 PM,07:55 PM,1:43:00,Participant
+James Williams,james.williams@msc.com,18:24,19:16,52,Participant
+Sarah Johnson,sarah.johnson@msc.com,18:10,20:00,110,Participant
+Michael Brown,michael.brown@msc.com,18:20,20:00,100,Participant
+Emily Davis,emily.davis@msc.com,18:11,18:25,14,Participant
+John Miller,john.miller@msc.com,18:01,19:15,74,Participant
+Olivia Garcia,olivia.garcia@msc.com,18:56,20:00,64,Participant
+David Martinez,david.martinez@msc.com,18:10,20:00,110,Participant
+Emma Wilson,emma.wilson@msc.com,18:14,18:57,43,Participant
+Daniel Anderson,daniel.anderson@msc.com,18:49,19:39,50,Participant
+Sophia Thomas,sophia.thomas@msc.com,18:15,18:56,41,Participant
+Robert Taylor,robert.taylor@msc.com,18:27,19:06,39,Participant
+Mia Lee,mia.lee@msc.com,18:34,19:10,36,Participant
+William Harris,william.harris@msc.com,18:35,20:00,85,Participant
+Isabella Clark,isabella.clark@msc.com,18:34,19:07,33,Participant
+Joseph Lewis,joseph.lewis@msc.com,18:40,19:35,55,Participant
+Charlotte Robinson,charlotte.robinson@msc.com,18:24,18:59,35,Participant
+Benjamin Young,benjamin.young@msc.com,18:13,20:00,107,Participant
+Amelia Hall,amelia.hall@msc.com,18:42,18:48,6,Participant
+Samuel King,samuel.king@msc.com,18:52,19:22,30,Participant
+Abigail Scott,abigail.scott@msc.com,18:51,19:39,48,Participant
+Alexander Green,alexander.green@msc.com,18:36,19:24,48,Participant
+Harper Adams,harper.adams@msc.com,18:27,20:00,93,Participant
+Christopher Baker,christopher.baker@msc.com,18:56,20:00,64,Participant
+Lily Gonzalez,lily.gonzalez@msc.com,18:04,19:54,110,Participant
+Matthew Nelson,matthew.nelson@msc.com,18:30,19:27,57,Participant
+Chloe Carter,chloe.carter@msc.com,18:48,20:00,72,Participant
+Anthony Mitchell,anthony.mitchell@msc.com,18:22,19:04,42,Participant
+Grace Perez,grace.perez@msc.com,18:22,18:57,35,Participant
+Joshua Moore,joshua.moore@msc.com,18:36,20:00,84,Participant
+Ella White,ella.white@msc.com,18:40,20:00,80,Participant
+Andrew Ramirez,andrew.ramirez@msc.com,18:37,20:00,83,Participant
+Zoe Walker,zoe.walker@msc.com,18:18,19:44,86,Participant
+Nicholas Allen,nicholas.allen@msc.com,18:33,20:00,87,Participant
+Layla Rivera,layla.rivera@msc.com,18:07,18:58,51,Participant
+Ryan Hill,ryan.hill@msc.com,18:48,20:00,72,Participant
+Hannah Wright,hannah.wright@msc.com,18:06,19:16,70,Participant
+Justin Flores,justin.flores@msc.com,18:57,19:29,32,Participant
+Natalie Collins,natalie.collins@msc.com,18:41,20:00,79,Participant
+Ethan Edwards,ethan.edwards@msc.com,18:29,19:41,72,Participant
+Aria Turner,aria.turner@msc.com,18:22,19:19,57,Participant

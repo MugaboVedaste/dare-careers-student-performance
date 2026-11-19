@@ -1,17 +1,21 @@
 
 from pathlib import Path
 from collections import Counter
+import argparse
 import csv
 
 from openpyxl import load_workbook
 
-DATA_DIR = Path("data/raw/power_bi")
+
+PROJECT_DIR = Path(__file__).resolve().parent.parent
+RAW_DATA_DIR = PROJECT_DIR / "data" / "raw"
 
 
-def profile_attendance():
-    print("\n========== POWER BI ATTENDANCE ==========")
+def profile_attendance(data_dir):
+    print("\n========== ATTENDANCE PROFILE ==========")
 
-    files = list(DATA_DIR.glob("Zoom Attendance/Week */*.csv"))
+    files = sorted(data_dir.glob("Zoom Attendance/Week */*.csv"))
+
     print("Total CSV files:", len(files))
 
     total_records = 0
@@ -25,11 +29,13 @@ def profile_attendance():
             headers[tuple(reader.fieldnames or [])] += 1
 
             count = 0
+
             for row in reader:
                 total_records += 1
                 count += 1
 
                 email = (row.get("Email") or "").strip().lower()
+
                 if email:
                     unique_emails.add(email)
 
@@ -41,11 +47,16 @@ def profile_attendance():
     print("Records per file:", daily_counts)
 
 
-def profile_workbooks():
-    print("\n========== POWER BI EXCEL WORKBOOKS ==========")
+def profile_workbooks(data_dir):
+    print("\n========== EXCEL WORKBOOK PROFILE ==========")
 
-    for file in DATA_DIR.rglob("*.xlsx"):
-        print(f"\nFILE: {file.name}")
+    files = sorted(data_dir.rglob("*.xlsx"))
+
+    if not files:
+        print("No Excel workbooks found.")
+
+    for file in files:
+        print(f"\nFILE: {file.relative_to(data_dir)}")
 
         workbook = load_workbook(
             file, read_only=True, data_only=True
@@ -59,15 +70,35 @@ def profile_workbooks():
 
             print("Columns:", header)
 
-            row_count = 0
-            for _ in rows:
-                row_count += 1
+            row_count = sum(1 for _ in rows)
 
             print("Data rows:", row_count)
 
         workbook.close()
 
 
+def main():
+    parser = argparse.ArgumentParser(
+        description="Profile source data for either training track."
+    )
+
+    parser.add_argument(
+        "track",
+        choices=["aws_cloud", "power_bi"],
+        help="Training track to profile."
+    )
+
+    args = parser.parse_args()
+    data_dir = RAW_DATA_DIR / args.track
+
+    if not data_dir.exists():
+        parser.error(f"Data directory does not exist: {data_dir}")
+
+    print(f"\nPROFILING TRACK: {args.track.upper()}")
+
+    profile_attendance(data_dir)
+    profile_workbooks(data_dir)
+
+
 if __name__ == "__main__":
-    profile_attendance()
-    profile_workbooks()
+    main()

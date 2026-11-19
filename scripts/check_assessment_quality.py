@@ -10,17 +10,51 @@ PROJECT_DIR = Path(__file__).resolve().parent.parent
 RAW_DATA_DIR = PROJECT_DIR / "data" / "raw"
 
 
+def find_workbook(folder):
+    """Find the Excel workbook in a track-specific folder."""
+    files = sorted(
+        file for file in folder.glob("*.xlsx")
+        if not file.name.startswith("~$")
+    )
+
+    if not files:
+        raise FileNotFoundError(
+            f"No Excel workbook found in: {folder}"
+        )
+
+    if len(files) > 1:
+        raise ValueError(
+            f"Multiple Excel workbooks found in {folder}: "
+            f"{[file.name for file in files]}"
+        )
+
+    return files[0]
+
+
 def validate_assessments(data_dir):
     print("\n========== ASSESSMENT QUALITY ==========")
 
-    file = data_dir / "Labs & Quizes" / "Labs & Quizes.xlsx"
+    folder = data_dir / "Labs & Quizes"
+    file = find_workbook(folder)
+
+    print("Assessment workbook:", file.name)
 
     workbook = load_workbook(file, read_only=True, data_only=True)
 
     for sheet_name in ["Labs", "Quizzes"]:
+        if sheet_name not in workbook.sheetnames:
+            raise ValueError(
+                f"Missing worksheet '{sheet_name}' in {file.name}"
+            )
+
         ws = workbook[sheet_name]
 
         rows = list(ws.iter_rows(values_only=True))
+
+        if not rows:
+            print(f"\n{sheet_name.upper()}: Empty worksheet")
+            continue
+
         headers = list(rows[0])
 
         emails = []
@@ -29,8 +63,10 @@ def validate_assessments(data_dir):
         invalid_scores = 0
         duplicate_emails = 0
         seen_emails = set()
+
         week_columns = [
-            header for header in headers if str(header).lower().startswith("week")
+            header for header in headers
+            if str(header).strip().lower().startswith("week")
         ]
 
         for row in rows[1:]:
@@ -48,7 +84,10 @@ def validate_assessments(data_dir):
                     missing_scores += 1
                     continue
 
-                if not isinstance(score, (int, float)) or not 0 <= score <= 100:
+                if (
+                    not isinstance(score, (int, float))
+                    or not 0 <= score <= 100
+                ):
                     invalid_scores += 1
                     continue
 
@@ -74,13 +113,20 @@ def validate_assessments(data_dir):
 def validate_learner_status(data_dir):
     print("\n========== LEARNER STATUS QUALITY ==========")
 
-    file = data_dir / "Status of Learners" / "Status of Participanat.xlsx"
+    folder = data_dir / "Status of Learners"
+    file = find_workbook(folder)
+
+    print("Learner status workbook:", file.name)
 
     workbook = load_workbook(file, read_only=True, data_only=True)
     ws = workbook.active
 
     rows = list(ws.iter_rows(values_only=True))
-    headers = rows[0]
+
+    if not rows:
+        raise ValueError(f"Empty learner status workbook: {file.name}")
+
+    headers = list(rows[0])
 
     email_index = headers.index("email")
     graduation_index = headers.index("Graduation Status")
@@ -128,7 +174,6 @@ def main():
     )
 
     args = parser.parse_args()
-
     data_dir = RAW_DATA_DIR / args.track
 
     if not data_dir.exists():

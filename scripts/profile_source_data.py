@@ -1,109 +1,110 @@
 
-from pathlib import Path
-from collections import Counter
-from datetime import datetime
+import argparse
 import csv
+from collections import Counter
+from pathlib import Path
 from openpyxl import load_workbook
 
-DATA_DIR = Path("data/raw/aws_cloud")
+PROJECT_DIR = Path(__file__).resolve().parent.parent
+RAW_DATA_DIR = PROJECT_DIR / "data" / "raw"
 
 
-def inspect_attendance():
-    print("\n========== ATTENDANCE ==========")
+def inspect_attendance(data_dir):
+    print("\n========== ATTENDANCE DETAILS ==========")
 
-    files = sorted(DATA_DIR.glob("Zoom Attendance/Week */*.csv"))
-
-    print("Total CSV files:", len(files))
+    attendance_files = sorted(
+        data_dir.glob("Zoom Attendance/Week */*.csv")
+    )
 
     all_emails = set()
-    headers = Counter()
     total_records = 0
-    invalid_durations = 0
+    duration_counts = Counter()
+    role_counts = Counter()
 
-    for file in files:
-        with file.open(encoding="utf-8-sig", newline="") as f:
+    for file in attendance_files:
+        with open(file, "r", encoding="utf-8-sig", newline="") as f:
             reader = csv.DictReader(f)
-
-            headers[tuple(reader.fieldnames or [])] += 1
 
             for row in reader:
                 total_records += 1
-                email = (row.get("Email") or "").strip().lower()
 
+                email = row.get("Email", "").strip().lower()
                 if email:
                     all_emails.add(email)
 
-                try:
-                    duration = datetime.strptime(
-                        row["Duration"].strip(), "%H:%M:%S"
-                    )
-                except (ValueError, KeyError, AttributeError):
-                    invalid_durations += 1
+                duration_counts[row.get("Duration", "").strip()] += 1
+                role_counts[row.get("Role", "").strip()] += 1
 
-    print("CSV headers:", headers)
-    print("Total attendance records:", total_records)
-    print("Unique learner emails:", len(all_emails))
-    print("Invalid durations:", invalid_durations)
+    print(f"Attendance files: {len(attendance_files)}")
+    print(f"Total attendance records: {total_records}")
+    print(f"Unique learner emails: {len(all_emails)}")
+    print(f"Roles: {role_counts}")
+
+    print("\nMost common session durations:")
+    for duration, count in duration_counts.most_common(10):
+        print(f"{duration}: {count}")
 
     return all_emails
 
 
-def inspect_excel():
-    print("\n========== EXCEL WORKBOOKS ==========")
+def inspect_excel(data_dir):
+    print("\n========== EXCEL SOURCE DETAILS ==========")
 
-    for file in DATA_DIR.rglob("*.xlsx"):
-        print(f"\nFILE: {file.name}")
+    excel_files = sorted(data_dir.rglob("*.xlsx"))
 
-        wb = load_workbook(file, read_only=True, data_only=True)
+    for file in excel_files:
+        print(f"\nFILE: {file.relative_to(data_dir)}")
 
-        for ws in wb.worksheets:
-            rows = list(ws.iter_rows(values_only=True))
+        workbook = load_workbook(file, read_only=True, data_only=True)
 
-            print(f"\nSheet: {ws.title}")
-            print("Rows:", len(rows) - 1)
-            print("Columns:", rows[0] if rows else [])
+        for sheet in workbook.worksheets:
+            print(f"\nSHEET: {sheet.title}")
 
-            if ws.title == "Labs" or ws.title == "Quizzes":
-                scores = [
-                    value
-                    for row in rows[1:]
-                    for value in row[1:]
-                    if isinstance(value, (int, float))
-                ]
+            rows = sheet.iter_rows(values_only=True)
+            headers = next(rows, None)
 
-                print("Score count:", len(scores))
-                print("Minimum score:", min(scores, default=None))
-                print("Maximum score:", max(scores, default=None))
+            if headers is None:
+                print("Empty sheet")
+                continue
 
-            if ws.title == "Sheet1" and "Participation" in file.name:
-                participant_counts = []
+            print(f"Columns: {headers}")
 
-                for row in rows[1:]:
-                    if len(row) > 1 and row[1]:
-                        names = [
-                            name.strip()
-                            for name in str(row[1]).split(",")
-                            if name.strip()
-                        ]
-                        participant_counts.append(len(names))
+            data_rows = list(rows)
+            print(f"Data rows: {len(data_rows)}")
 
-                print("Participation dates:", len(participant_counts))
-                print("Total participation entries:",
-                      sum(participant_counts))
-                print("Average daily participants:",
-                      round(sum(participant_counts) /
-                            len(participant_counts), 2)
-                      if participant_counts else 0)
+            if data_rows:
+                print("Sample rows:")
+                for row in data_rows[:3]:
+                    print(row)
 
-            if "Status" in file.name:
-                print("Graduation statuses:",
-                      Counter(row[1] for row in rows[1:] if len(row) > 1))
-                print("Certification statuses:",
-                      Counter(row[2] for row in rows[1:] if len(row) > 2))
+        workbook.close()
 
-        wb.close()
+
+def main():
+    parser = argparse.ArgumentParser(
+        description="Inspect raw source data for a training track."
+    )
+
+    parser.add_argument(
+        "track",
+        choices=["aws_cloud", "power_bi"],
+        help="Training track to inspect."
+    )
+
+    args = parser.parse_args()
+    data_dir = RAW_DATA_DIR / args.track
+
+    print(f"\nINSPECTING TRACK: {args.track.upper()}")
+    print(f"Source directory: {data_dir}")
+
+    if not data_dir.exists():
+        raise FileNotFoundError(
+            f"Track directory does not exist: {data_dir}"
+        )
+
+    inspect_attendance(data_dir)
+    inspect_excel(data_dir)
 
 
 if __name__ == "__main__":
-    inspect_attendance()
-    inspect_excel()
+    main()
