@@ -1,61 +1,146 @@
-## AWS Cloud Data Quality Validation
+# Dare Careers – Student Progress and Performance Dashboard
 
-Validation was performed on the corrected AWS Cloud source datasets.
+## 1. Project Overview
 
-### Attendance
+The Dare Careers Student Progress and Performance Dashboard is a Business Intelligence project developed using Microsoft Power BI.
 
-- Total attendance CSV files: 50
-- Total attendance records: 2,000
-- Unique learner emails: 40
-- Attendance records per day: 40
-- Duplicate learner records per day: 0
-- Sessions lasting 30 minutes or less: 415
-- Sessions lasting more than 30 minutes: 1,585
-- All attendance records were checked against the attendance qualification rule.
+The project focuses on analyzing learner attendance, participation, assessments, certifications, graduation outcomes, and overall training performance.
 
-### Participation
+The dashboard transforms raw training data into meaningful insights that help trainers and program managers monitor learner progress, evaluate program performance, and make data-driven decisions.
 
-- Total participation dates: 50
-- Total participation entries: 1,784
-- Successfully matched entries: 1,784
-- Unmatched learner names: 0
-- Ambiguous learner names: 0
-- Duplicate learner/date entries: 0
-- Missing dates between attendance and participation: 0
+The project covers two learning tracks:
+- AWS Cloud
+- Power BI
 
-### Assessments
+The available dataset represents one completed cohort.
 
-- Total learners assessed: 40
-- Valid lab scores: 400
-- Valid quiz scores: 400
-- Missing or invalid scores: 0
-- Duplicate assessment email records: 0
+## 2. Project Objectives
 
-### Learner Status
+The main objectives are to:
 
-- Total learner status records: 40
-- Graduates: 33
-- Non-graduates: 7
-- Certified learners: 24
-- Learners not certified: 16
-- Missing or duplicate learner email records: 0
+- Monitor learner progress and performance.
+- Analyze graduation, certification, and dropout rates.
+- Evaluate learner attendance and participation.
+- Track completed labs and assessment performance.
+- Compare performance across learning tracks.
+- Provide detailed insights into individual learner performance.
+- Support data-driven decision-making.
 
-### Validation Conclusion
+## 3. Project Scope
 
-The corrected AWS Cloud datasets passed the implemented data quality checks.
+### 3.1 Overall Performance Metrics
 
-All 1,784 participation entries were successfully matched to learner records. Attendance and participation datasets cover the same 50 training dates.
+The first dashboard page provides an overview of:
 
-The assessment datasets contain valid lab and quiz scores for all 40 learners, with no missing or invalid scores.
+- Total learner enrollments.
+- Total graduations.
+- Total certifications.
+- Total dropouts.
+- Graduation rate.
+- Certification rate.
+- Dropout rate.
+- Average attendance rate.
+- Average participation rate.
+- Average assessment scores.
 
-The learner status dataset contains 40 records with no missing or duplicate email addresses.
+### 3.2 Detailed Learner Insights
 
-Attendance qualification follows this business rule:
+The second dashboard page focuses on:
 
-A learner is considered present only when their session duration is strictly greater than 30 minutes. Sessions lasting exactly 30 minutes or less are excluded from attendance counts.
+- Individual learner information.
+- Learning tracks.
+- Attendance rates.
+- Participation rates.
+- Assessment scores.
+- Total labs completed.
+- Average labs completed.
+- Total class attendance hours.
+- Learner and program status.
 
-### Outstanding Business Rules
+## 4. Data Sources
 
-- Confirm the expected number of training sessions for attendance-rate calculations.
-- Confirm whether a zero lab or quiz score means incomplete or submitted with a score of zero.
-- Confirm whether Non Graduate means dropout or includes learners still in progress.
+The project uses training-related datasets covering:
+
+| Data Area | Description |
+|---|---|
+| Zoom Attendance | Learner attendance records and session durations |
+| Participation | Learner participation records |
+| Labs | Learner lab assessment records and scores |
+| Quizzes | Learner quiz assessment records and scores |
+| Learner Status | Graduation and certification information |
+
+The datasets include AWS Cloud and Power BI learning tracks.
+
+## 5. Tools and Technologies
+
+- **Microsoft Power BI Desktop:** Data modeling, DAX calculations, and dashboard development.
+- **Power Query:** Data extraction, cleaning, transformation, and preparation.
+- **DAX:** Creation of calculated columns and measures.
+- **Git and GitHub:** Source control and project version management.
+- **Markdown:** Technical documentation.
+
+## 6. Data Model
+
+The project uses a dimensional modeling approach.
+
+### Fact Tables
+- `Fact_Zoom_Attendance`
+- `FactParticipation`
+- `FactLabs`
+- `FactQuizzes`
+
+### Dimension Tables
+- `DimLearner`
+- `DimDate`
+- `DimWeek`
+
+Learner status attributes are merged into `DimLearner`.
+
+See [data_model.md](data_model.md) for the detailed model structure.
+
+## 7. Dashboard Structure
+
+The dashboard consists of two main pages.
+
+### Page 1: Overall Performance Metrics
+
+Provides a high-level overview of training program performance through KPI cards, bar charts, and interactive slicers.
+
+### Page 2: Detailed Learner Insights
+
+Provides detailed learner-level performance information through summary cards, a learner table, and interactive slicers.
+
+## 8. Key Performance Indicators
+
+| KPI | Description |
+|---|---|
+| Graduation Rate | Percentage of learner-track enrollments that graduated |
+| Certification Rate | Percentage of learner-track enrollments that achieved certification |
+| Dropout Rate | Percentage of learner-track enrollments classified as dropouts |
+| Average Attendance Rate | Average attendance percentage across learners |
+| Average Participation Rate | Average participation rate across learners |
+| Average Assessment Score | Average score across lab and quiz assessments |
+| Average Labs Completed | Average number of completed labs per learner |
+| Total Class Hours | Total qualifying class attendance hours |
+
+## 9. Expected Outcomes
+
+The dashboard is intended to:
+
+- Provide a clear overview of learner and program performance.
+- Identify attendance and participation patterns.
+- Highlight learner achievements and areas requiring attention.
+- Enable comparisons between AWS Cloud and Power BI.
+- Help trainers and program managers monitor learner progress.
+- Improve reporting through interactive visualizations.
+
+## 10. Documentation Structure
+
+The documentation folder contains:
+
+- `project_overview.md` – Project purpose, objectives, scope, and technologies.
+- `dashboard_guide.md` – Dashboard pages, visuals, and slicers.
+- `data_cleaning.md` – Data preparation and validation.
+- `data_dictionary.md` – Descriptions of tables and fields.
+- `data_model.md` – Data model and relationships.
+- `dax_measures.md` – DAX measures and calculated columns.
