@@ -167,6 +167,9 @@ dare-careers-student-performance/
 │   ├── power_query/              # Power Query (M) definitions of every query
 │   └── screenshots/              # one image per dashboard page
 │
+├── reports/
+│   └── dashboard_exports/        # PDF export of the dashboard
+│
 ├── scripts/                      # data profiling and quality-check scripts
 └── README.md
 ```

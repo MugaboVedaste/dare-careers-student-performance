@@ -10,6 +10,10 @@ This guide explains the two pages of the Dare Careers Student Progress and Perfo
 
 **Objective:** a high-level view of learner outcomes and programme performance for stakeholders.
 
+![Overall Performance Metrics](../power_bi/screenshots/Overall%20Performance%20Metrics.png)
+
+*No slicers selected: 140 learners, 119 graduations, 92 certifications, 2 dropouts.*
+
 ### Summary cards
 
 | Card | Meaning |
@@ -39,6 +43,10 @@ Cohort · Track · Certification Type · Learner Status (Certified / Not Certifi
 ## 3. Page 2: Detailed Learner Insights
 
 **Objective:** learner-level progress and engagement for trainers and programme managers.
+
+![Detailed Learner Insights](../power_bi/screenshots/Detailed%20Learner%20Insights.png)
+
+*Month = August selected (Weeks 1–4): 555 labs, 94.21% attendance, 87.61% participation, 50.40 average assessment score.*
 
 ### Summary cards
 

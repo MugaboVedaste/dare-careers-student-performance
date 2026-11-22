@@ -7,7 +7,11 @@ A Power BI dashboard that tracks learner attendance, participation, lab and quiz
 | **Overall Performance Metrics** | Programme-level cards and six bar charts: graduation, certification and dropout rates, average attendance, participation and assessment score. Slicers: Cohort, Track, Certification Type, Learner Status. |
 | **Detailed Learner Insights** | Learner table plus six summary cards (labs, class hours, attendance, participation, assessment). Slicers: Cohort, Track, Month, Week, Learner Status, Program Status. |
 
-Screenshots: [`power_bi/screenshots/`](power_bi/screenshots/).
+![Overall Performance Metrics](power_bi/screenshots/Overall%20Performance%20Metrics.png)
+
+![Detailed Learner Insights](power_bi/screenshots/Detailed%20Learner%20Insights.png)
+
+The data model is shown in [`power_bi/screenshots/Model.png`](power_bi/screenshots/Model.png).
 
 ## Key rule
 
@@ -19,6 +23,7 @@ A learner is **Attended** for a class only if they spent **more than 30 minutes*
 data/raw/                 Source files (Zoom CSVs, participation, labs & quizzes, status) per track
 power_bi/                 dare_careers_dashboard.pbix, Power Query (M) code, screenshots
 documentation/            Model, DAX, data dictionary, cleaning notes, dashboard guide
+reports/dashboard_exports/ PDF export of the dashboard
 scripts/                  Data profiling and quality-check scripts
 ```
 

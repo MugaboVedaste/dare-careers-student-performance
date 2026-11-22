@@ -4,6 +4,8 @@
 
 The dashboard uses a star schema: dimension tables describe *who* and *when*, fact tables hold the measurable events. All relationships are one-to-many with single-direction filtering, from dimension to fact.
 
+![Data model](../power_bi/screenshots/Model.png)
+
 ## 2. Tables
 
 | Table | Type | Grain |
