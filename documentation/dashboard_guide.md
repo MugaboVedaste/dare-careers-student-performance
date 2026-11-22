@@ -2,119 +2,98 @@
 
 ## 1. Introduction
 
-This guide explains the structure and functionality of the Dare Careers Student Progress and Performance Dashboard.
+This guide explains the two pages of the Dare Careers Student Progress and Performance Dashboard and how to read them. Screenshots are in `power_bi/screenshots/`.
 
-The dashboard contains two main pages designed to provide an overview of program performance and detailed learner-level insights.
+**Attendance rule used everywhere:** a learner counts as *Attended* for a class only if they spent **more than 30 minutes** in the Zoom session.
 
 ## 2. Page 1: Overall Performance Metrics
 
-### Objective
+**Objective:** a high-level view of learner outcomes and programme performance for stakeholders.
 
-Provide an overview of learner outcomes and overall training performance across AWS Cloud and Power BI tracks.
+### Summary cards
 
-### KPI Card
+| Card | Meaning |
+|---|---|
+| Total Learners | Learner enrollments across all selected cohorts and tracks (a learner on two tracks would count twice; today none do) |
+| Total Graduations | Learners with Graduation Status = Graduate |
+| Total Certifications | Learners with Certification Status = Certified |
+| Total Dropouts | Learners classified as Dropout (see §5) |
 
-The KPI card displays four summary figures:
+### Bar charts
 
-- Total Learner Enrollments
-- Total Graduations
-- Total Certifications
-- Total Dropouts
+Each chart compares the two tracks (AWS Cloud, Power BI), split by cohort:
 
-### Performance Charts
-
-The page includes six bar charts:
-
-1. Graduation Rate by Track
-2. Certification Rate by Track
-3. Dropout Rate by Track
-4. Average Attendance Rate by Track
-5. Average Participation Rate by Track
-6. Average Assessment Score by Track
-
-These charts allow comparisons between the AWS Cloud and Power BI tracks.
+1. Graduation Rate
+2. Certification Rate
+3. Dropout Rate
+4. Average Attendance Rate — mean of each learner's share of class days attended
+5. Average Participation Rate — mean of each learner's share of class days participated
+6. Average Assessment Score — mean of weekly lab and quiz scores
 
 ### Slicers
 
-The page includes the following interactive slicers:
+Cohort · Track · Certification Type · Learner Status (Certified / Not Certified)
 
-- Cohort
-- Track
-- Certification Type
-- Learner Status
-
-Users can select different values to filter the dashboard.
+`Certification Type` mirrors the track (AWS / Power BI), because each track awards one certification.
 
 ## 3. Page 2: Detailed Learner Insights
 
-### Objective
+**Objective:** learner-level progress and engagement for trainers and programme managers.
 
-Provide detailed insights into individual learner progress, performance, and engagement.
+### Summary cards
 
-### Summary Cards
+| Card | Meaning |
+|---|---|
+| Total Labs | Labs completed (score above 0) by all selected learners |
+| Average Labs Completed | Labs completed per learner |
+| Total Class Hours | Hours in qualifying sessions (more than 30 minutes) for all selected learners |
+| Average Attendance Rate | Mean learner attendance rate |
+| Average Participation Rate | Mean learner participation rate |
+| Average Assessment Score | Mean of lab and quiz scores |
 
-The page includes six summary metrics:
-
-1. Count of Labs – Total number of completed labs.
-2. Average Labs Completed – Average number of completed labs per learner.
-3. Total Hours Spent in Class – Total qualifying class attendance hours.
-4. Average Attendance Rate – Average attendance rate per learner.
-5. Average Participation Rate – Average participation rate per learner.
-6. Average Assessment Scores – Average score across quizzes and labs.
-
-### Learner Table
-
-The learner table displays:
+### Learner table
 
 | Column | Description |
 |---|---|
-| Learner | Learner email or identifier |
-| Track | Learning track |
-| Attendance | Learner attendance percentage |
-| Participation | Learner participation percentage |
-| Assessment Scores | Learner average assessment score |
+| Learner | Learner e-mail |
+| Track | AWS Cloud / Power BI |
+| Cohort | Cohort name |
+| Participation | Learner's participation rate |
+| Attendance | Learner's attendance rate |
+| Assessment Scores | Learner's average lab and quiz score |
 
-The table provides a detailed view of individual learner performance.
+Every row shows that learner's own values; the Total row shows the average for the selected learners.
 
 ### Slicers
 
-The page includes:
+Cohort · Track · **Month** · **Week** · Learner Status · Program Status
 
-- Cohort
-- Track
-- Month
-- Week
-- Learner Status
-- Program Status
+- Month and Week both filter **every** card and the table (attendance, participation, class hours, labs and assessments).
+- A week belongs to the month of its Friday, so Week 9 (30 Sep – 4 Oct) is in October.
+- Selecting a Month and a Week that do not belong together (for example August and Week 10) returns no data. Clear one of them.
+- Program Status describes the cohort as a whole, not an individual learner.
 
-The current dataset contains one cohort, and its Program Status is Completed.
+## 4. Using slicers
 
-## 4. Using Dashboard Slicers
+1. Select a value in a slicer; every visual on the page updates.
+2. Use Ctrl+click for several values; click the selected value again (or the eraser icon) to clear it.
+3. Slicers combine: Track = AWS Cloud with Learner Status = Not Certified shows non-certified AWS Cloud learners.
+4. Slicer selections are saved with the report, so set every slicer to **All** before saving or publishing.
 
-Slicers allow users to interactively filter dashboard information.
+## 5. Understanding the metrics
 
-To use a slicer:
+| Metric | How it is calculated |
+|---|---|
+| Graduation / certification / dropout rate | Learners in the group ÷ all learners in the current selection |
+| Dropout | Non Graduate **and** Not Certified **and** last qualifying attendance before the final class day (or none). This is a project definition — the source data has no dropout field. |
+| Attendance rate | Class days attended (> 30 minutes) ÷ scheduled class days in the selected period, averaged over learners |
+| Participation rate | Class days participated ÷ scheduled class days in the selected period, averaged over learners |
+| Assessment score | Average of every weekly lab and quiz score; a score of 0 counts as 0 |
+| Labs completed | Weekly labs with a score above 0 |
 
-1. Select the desired slicer.
-2. Choose the value to analyze.
-3. Observe how the dashboard visuals update.
-4. Clear the selection to return to the unfiltered view.
-
-Multiple slicers can be used together to analyze specific groups of learners.
-
-## 5. Understanding Dashboard Metrics
-
-- Graduation and certification rates represent percentages of learner-track enrollments.
-- Dropout rate is based on the project's defined dropout classification.
-- Attendance rate considers qualifying attendance records.
-- Participation rate measures learner participation relative to scheduled opportunities.
-- Assessment scores combine lab and quiz assessment results.
-- Average labs completed measures the average number of completed labs per learner.
+Reference values for checking the dashboard are in [dax_measures.md](dax_measures.md#10-validation-reference-values).
 
 ## 6. Notes
 
-The dashboard is based on one completed cohort.
-
-Therefore, the Program Status slicer currently contains only one available value: Completed.
-
-Dashboard values may change depending on the slicer selections.
+- The data covers one completed cohort, so the Cohort slicer has one value and Program Status is `Completed`.
+- Power BI-track learners show 100% attendance in the source data.

@@ -2,133 +2,77 @@
 
 ## 1. Overview
 
-The Dare Careers Student Progress and Performance Dashboard uses a dimensional data model.
+The dashboard uses a star schema: dimension tables describe *who* and *when*, fact tables hold the measurable events. All relationships are one-to-many with single-direction filtering, from dimension to fact.
 
-The model separates descriptive information into dimension tables and measurable business events into fact tables.
+## 2. Tables
 
-This structure supports filtering, aggregation, and analysis across learners, dates, weeks, and learning tracks.
+| Table | Type | Grain |
+|---|---|---|
+| `DimLearner` | Dimension | One row per learner **per track** (`LearnerTrackKey`) |
+| `DimDate` | Dimension | One row per class day |
+| `DimWeek` | Dimension | One row per training week (1–10) |
+| `Fact_Zoom_Attendance` | Fact | One row per learner per class day (Zoom session) |
+| `FactParticipation` | Fact | One row per learner per day participated |
+| `FactLabs` | Fact | One row per learner per week (lab score) |
+| `FactQuizzes` | Fact | One row per learner per week (quiz score) |
+| `DAX_Measures` | Measure holder | – |
 
-## 2. Dimension Tables
+`FactLearnerStatus` is a staging query: its graduation and certification columns are merged into `DimLearner`.
 
-The model contains three main dimension tables:
+Field-level detail is in [data_dictionary.md](data_dictionary.md).
 
-1. `DimLearner`
-2. `DimDate`
-3. `DimWeek`
+## 3. Relationships
 
-### DimLearner
+All relationships are active, one-to-many, single direction (dimension → fact).
 
-Contains learner-track information, including:
+| One side | Many side | Purpose |
+|---|---|---|
+| `DimLearner[LearnerTrackKey]` | `Fact_Zoom_Attendance[LearnerTrackKey]` | Learner → attendance |
+| `DimLearner[LearnerTrackKey]` | `FactParticipation[LearnerTrackKey]` | Learner → participation |
+| `DimLearner[LearnerTrackKey]` | `FactLabs[LearnerTrackKey]` | Learner → labs |
+| `DimLearner[LearnerTrackKey]` | `FactQuizzes[LearnerTrackKey]` | Learner → quizzes |
+| `DimDate[Date]` | `Fact_Zoom_Attendance[Attendance Date]` | Date → attendance |
+| `DimDate[Date]` | `FactParticipation[Date]` | Date → participation |
+| `DimDate[Date]` | `FactLabs[Week End Date]` | Week / month → labs |
+| `DimDate[Date]` | `FactQuizzes[Week End Date]` | Week / month → quizzes |
+| `DimWeek[Week]` | `FactLabs[Week]` | Week lookup for labs |
+| `DimWeek[Week]` | `FactQuizzes[Week]` | Week lookup for quizzes |
 
-- Learner email
-- Learning track
-- LearnerTrackKey
-- Cohort
-- Certification Type
-- Graduation Status
-- Certification Status
-- Dropout Status
-- Program Status
+There is **no relationship between `DimDate` and `DimWeek`**. Linking them created ambiguous filter paths, so labs and quizzes are connected to `DimDate` directly instead (see §5).
 
-### DimDate
+## 4. Slicer sources
 
-Provides calendar information for date-based analysis.
-
-### DimWeek
-
-Provides week-level information for lab and quiz analysis.
-
-## 3. Fact Tables
-
-The model contains four fact tables.
-
-| Fact Table | Description |
+| Slicer | Field |
 |---|---|
-| `Fact_Zoom_Attendance` | Learner attendance records |
-| `FactParticipation` | Learner participation records |
-| `FactLabs` | Learner lab assessment records |
-| `FactQuizzes` | Learner quiz assessment records |
+| Cohort | `DimLearner[Cohort]` |
+| Track | `DimLearner[Track]` |
+| Certification Type | `DimLearner[Certification Type]` |
+| Learner Status | `DimLearner[FactLearnerStatus.Certification Status]` |
+| Program Status | `DimLearner[Program Status]` |
+| Month | `DimDate[Month Name]` (sorted by `Month Number`) |
+| Week | `DimDate[Training Week]` (sorted by `Week Number`) |
 
-## 4. Relationships
+Month and Week come from `DimDate`, so they filter attendance, participation, labs and quizzes together.
 
-The model uses one-to-many relationships with single-direction filtering from dimensions to fact tables.
+## 5. Why labs and quizzes use `Week End Date`
 
-### Learner Relationships
+Labs and quizzes are recorded per week, not per day. Each lab and quiz row therefore carries a `Week End Date` (the Friday of its week, for example Week 1 → 9 Aug 2024). Every week has a class on Friday, so every `Week End Date` exists in `DimDate`. Selecting a week or month in a `DimDate` slicer then also selects the matching labs and quizzes.
 
-| One Side | Many Side | Relationship Key |
-|---|---|---|
-| `DimLearner[LearnerTrackKey]` | `Fact_Zoom_Attendance[LearnerTrackKey]` | LearnerTrackKey |
-| `DimLearner[LearnerTrackKey]` | `FactParticipation[LearnerTrackKey]` | LearnerTrackKey |
-| `DimLearner[LearnerTrackKey]` | `FactLabs[LearnerTrackKey]` | LearnerTrackKey |
-| `DimLearner[LearnerTrackKey]` | `FactQuizzes[LearnerTrackKey]` | LearnerTrackKey |
+A week belongs to the month of its Friday: Week 9 (30 Sep – 4 Oct) counts as October.
 
-### Date Relationships
+## 6. Design notes
 
-| One Side | Many Side | Relationship Key |
-|---|---|---|
-| `DimDate[Date]` | `Fact_Zoom_Attendance[Attendance Date]` | Date |
-| `DimDate[Date]` | `FactParticipation[Date]` | Date |
+- **`LearnerTrackKey`** = lower-cased, trimmed e-mail + `|` + track. It keeps a learner enrolled on both tracks as two separate enrollments. (No learner currently appears in both tracks.)
+- **`DimDate`** is built from the attendance records, so it holds class days only. `Scheduled Attendance Opportunities` relies on this: learners × distinct class days.
+- **Participation** source files list participants by *name*. Power Query maps names to e-mails through the attendance records (join on name). No name is shared between learners, so each name maps to exactly one e-mail.
 
-### Week Relationships
+## 7. Validation
 
-| One Side | Many Side | Relationship Key |
-|---|---|---|
-| `DimWeek[Week]` | `FactLabs[Week]` | Week |
-| `DimWeek[Week]` | `FactQuizzes[Week]` | Week |
+Check these after any model change:
 
-## 5. Model Design Principles
-
-### Learner Dimension
-
-`DimLearner` uses `LearnerTrackKey` to distinguish learner enrollments across different tracks.
-
-This is important because one learner may be associated with more than one learning track.
-
-### Date Dimension
-
-`DimDate` supports filtering and analyzing attendance and participation by calendar date.
-
-### Week Dimension
-
-`DimWeek` supports weekly filtering and analysis of lab and quiz performance.
-
-### Fact Tables
-
-Each fact table represents a specific business process:
-
-- Attendance events.
-- Participation records.
-- Lab assessment results.
-- Quiz assessment results.
-
-## 6. Filtering Direction
-
-The intended filtering direction is from dimension tables to fact tables.
-
-- `DimLearner` filters all four fact tables.
-- `DimDate` filters attendance and participation.
-- `DimWeek` filters labs and quizzes.
-
-There are no direct relationships between fact tables.
-
-## 7. Model Validation
-
-The following checks should be performed:
-
-1. Confirm dimension keys are unique on the one side.
-2. Confirm fact tables contain matching foreign keys.
-3. Confirm relationships are active.
-4. Confirm relationships use one-to-many cardinality.
-5. Confirm cross-filter direction is single.
-6. Test slicers against the relevant visuals.
-7. Confirm learner-level measures respond correctly to learner filters.
-
-## 8. Model Benefits
-
-The dimensional model supports:
-
-- Consistent learner-level analysis.
-- Track-level performance comparisons.
-- Date and week filtering.
-- Reusable DAX measures.
-- Easier maintenance and future expansion.
+1. In Model view every relationship above is a **solid line** (active), one-to-many, single direction. A dotted line is inactive and filters nothing.
+2. With no slicers selected, the cards match the values in [dax_measures.md](dax_measures.md) section 11.
+3. Select **Track = AWS Cloud**, then **Power BI**: attendance, participation and assessment bars must differ.
+4. In the learner table, values must differ from learner to learner.
+5. Select a **Week**, then a **Month**: attendance, participation, class hours, labs and assessments must all change.
+6. `Month Name` sorts August → September → October and `Training Week` sorts Week 1 → Week 10.

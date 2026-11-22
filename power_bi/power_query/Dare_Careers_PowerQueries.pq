@@ -179,16 +179,18 @@ in
 // FactLabs
 let
     Source = Table.Combine({AWS_Cloud_Labs, PowerBI_Labs}),
-    #"Added Custom" = Table.AddColumn(Source, "LearnerTrackKey", each Text.Lower(Text.Trim([email])) & "|" & [Track])
+    #"Added Custom" = Table.AddColumn(Source, "LearnerTrackKey", each Text.Lower(Text.Trim([email])) & "|" & [Track]),
+    #"Added Week End Date" = Table.AddColumn(#"Added Custom", "Week End Date", each Date.AddDays(#date(2024, 8, 5), 7 * (Number.FromText(Text.AfterDelimiter([Week], " ")) - 1) + 4), type date)
 in
-    #"Added Custom"
+    #"Added Week End Date"
 
 // FactQuizzes
 let
     Source = Table.Combine({AWS_Cloud_Quizzes, PowerBI_Quizzes}),
-    #"Added Custom" = Table.AddColumn(Source, "LearnerTrackKey", each Text.Lower(Text.Trim([email])) & "|" & [Track])
+    #"Added Custom" = Table.AddColumn(Source, "LearnerTrackKey", each Text.Lower(Text.Trim([email])) & "|" & [Track]),
+    #"Added Week End Date" = Table.AddColumn(#"Added Custom", "Week End Date", each Date.AddDays(#date(2024, 8, 5), 7 * (Number.FromText(Text.AfterDelimiter([Week], " ")) - 1) + 4), type date)
 in
-    #"Added Custom"
+    #"Added Week End Date"
 
 // AWS_Cloud_Status
 let
@@ -249,21 +251,24 @@ let
     ) + 1
 )),
     #"Inserted Year" = Table.AddColumn(#"Added Custom", "Year", each Date.Year([Date]), Int64.Type),
-    #"Inserted Month" = Table.AddColumn(#"Inserted Year", "Month", each Date.Month([Date]), Int64.Type),
-    #"Inserted Month Name" = Table.AddColumn(#"Inserted Month", "Month Name", each Date.MonthName([Date]), type text),
-    #"Removed Columns1" = Table.RemoveColumns(#"Inserted Month Name",{"Month"}),
-    #"Inserted Day" = Table.AddColumn(#"Removed Columns1", "Day", each Date.Day([Date]), Int64.Type)
+    #"Inserted Month Number" = Table.AddColumn(#"Inserted Year", "Month Number", each Date.Month([Date]), Int64.Type),
+    #"Inserted Month Name" = Table.AddColumn(#"Inserted Month Number", "Month Name", each Date.MonthName([Date]), type text),
+    #"Inserted Day" = Table.AddColumn(#"Inserted Month Name", "Day", each Date.Day([Date]), Int64.Type),
+    #"Added Week Number" = Table.AddColumn(#"Inserted Day", "Week Number", each Number.IntegerDivide(Duration.Days([Date] - #date(2024, 8, 5)), 7) + 1, Int64.Type)
 in
-    #"Inserted Day"
+    #"Added Week Number"
 
 // DimWeek
 let
     Source = FactLabs,
     #"Removed Columns" = Table.RemoveColumns(Source,{"email", "Score", "Track", "LearnerTrackKey"}),
     #"Removed Duplicates" = Table.Distinct(#"Removed Columns"),
-    #"Added Custom" = Table.AddColumn(#"Removed Duplicates", "Week Number", each Number.FromText(Text.AfterDelimiter([Week], " ")))
+    #"Added Custom" = Table.AddColumn(#"Removed Duplicates", "Week Number", each Number.FromText(Text.AfterDelimiter([Week], " ")), Int64.Type),
+    #"Added Week Start" = Table.AddColumn(#"Added Custom", "Week Start", each Date.AddDays(#date(2024, 8, 5), 7 * ([Week Number] - 1)), type date),
+    #"Added Month Number" = Table.AddColumn(#"Added Week Start", "Month Number", each Date.Month(Date.AddDays([Week Start], 2)), Int64.Type),
+    #"Added Month Name" = Table.AddColumn(#"Added Month Number", "Month Name", each Date.MonthName(Date.AddDays([Week Start], 2)), type text)
 in
-    #"Added Custom"
+    #"Added Month Name"
 
 // DAX_Measures
 let

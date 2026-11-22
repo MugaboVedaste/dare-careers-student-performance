@@ -3,3 +3,13 @@
 
 # Power BI temporary files
 *.tmp
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+.ipynb_checkpoints/
+
+# Power BI local files
+.pbi/
+*.pbix.bak

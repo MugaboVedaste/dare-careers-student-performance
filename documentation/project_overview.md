@@ -91,7 +91,7 @@ The data preparation process involves:
 5. Creating relationships between the tables.
 6. Developing DAX measures for dashboard calculations.
 
-The data model uses a dimensional modeling approach, with learner, date, and week dimensions connected to the relevant fact tables.
+The data model uses a dimensional modeling approach, with learner, date, and week dimensions connected to the relevant fact tables. Labs and quizzes connect to `DimDate` through a week-end date, so the Week and Month slicers affect every fact table. See [data_model.md](data_model.md).
 
 ### Main Fact Tables
 
@@ -151,6 +151,9 @@ The project documentation and Power BI files are organized as follows:
 ```text
 dare-careers-student-performance/
 │
+├── data/
+│   └── raw/                      # source files, never edited (aws_cloud/, power_bi/)
+│
 ├── documentation/
 │   ├── dashboard_guide.md
 │   ├── data_cleaning.md
@@ -160,12 +163,13 @@ dare-careers-student-performance/
 │   └── project_overview.md
 │
 ├── power_bi/
-│   └── dare_careers_dashboard.pbix
+│   ├── dare_careers_dashboard.pbix
+│   ├── power_query/              # Power Query (M) definitions of every query
+│   └── screenshots/              # one image per dashboard page
 │
+├── scripts/                      # data profiling and quality-check scripts
 └── README.md
 ```
-
-Additional folders and files may be included as the project develops.
 
 ---
 
